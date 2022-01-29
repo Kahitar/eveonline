@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Wetware Mainframe",
+        "type_id": 2876,
+        "ingredients": [
+            {
+                "type_id": 2328,
+                "amount": 20
+            },
+            {
+                "type_id": 9836,
+                "amount": 20
+            },
+            {
+                "type_id": 9832,
+                "amount": 20
+            },
+            {
+                "type_id": 3828,
+                "amount": 20
+            },
+            {
+                "type_id": 3725,
+                "amount": 20
+            },
+            {
+                "type_id": 2463,
+                "amount": 20
+            },
+            {
+                "type_id": 3693,
+                "amount": 20
+            },
+            {
+                "type_id": 3691,
+                "amount": 20
+            },
+            {
+                "type_id": 2319,
+                "amount": 20
+            }
+        ]
+    }
+]
