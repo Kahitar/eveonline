@@ -27,7 +27,7 @@ def _api_call(method, endpoint: str, header: dict, **kwargs) -> requests.Respons
         headers=header,
         **kwargs,
     )
-    print("URL:", url_join(ENDPOINT_URL, endpoint))
+    # print("URL:", url_join(ENDPOINT_URL, endpoint))
     _check_status_code(resp, endpoint, method, header)
     return resp
 

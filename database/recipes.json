@@ -1,43 +1,123 @@
 [
     {
         "name": "Wetware Mainframe",
+        "type": "pi_type",
+        "pi_tier": 4,
         "type_id": 2876,
         "ingredients": [
             {
+                "name": "Water-Cooled CPU",
                 "type_id": 2328,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Consumer Electronics",
                 "type_id": 9836,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Coolant",
                 "type_id": 9832,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Construction Blocks",
                 "type_id": 3828,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Livestock",
                 "type_id": 3725,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Nanites",
                 "type_id": 2463,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Fertilizer",
                 "type_id": 3693,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Synthetic Oil",
                 "type_id": 3691,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
             },
             {
+                "name": "Test Cultures",
                 "type_id": 2319,
-                "amount": 20
+                "amount": 20,
+                "pi_tier": 2
+            }
+        ]
+    },
+    {
+        "name": "Synthetic Oil",
+        "type": "pi_type",
+        "pi_tier": 2,
+        "type_id": 3691,
+        "ingredients": [
+            {
+                "name": "Electrolytes",
+                "type_id": 2390,
+                "amount": 40,
+                "pi_tier": 1
+            },
+            {
+                "name": "Oxygen",
+                "type_id": 3683,
+                "amount": 40,
+                "pi_tier": 1
+            }
+        ]
+    },
+    {
+        "name": "Livestock",
+        "type": "pi_type",
+        "pi_tier": 2,
+        "type_id": 3725,
+        "ingredients": [
+            {
+                "name": "Proteins",
+                "type_id": 2395,
+                "amount": 40,
+                "pi_tier": 1
+            },
+            {
+                "name": "Biofuels",
+                "type_id": 2396,
+                "amount": 40,
+                "pi_tier": 1
+            }
+        ]
+    },
+    {
+        "name": "Fertilizer",
+        "type": "pi_type",
+        "pi_tier": 2,
+        "type_id": 3693,
+        "ingredients": [
+            {
+                "name": "Bacteria",
+                "type_id": 2393,
+                "amount": 40,
+                "pi_tier": 1
+            },
+            {
+                "name": "Proteins",
+                "type_id": 2395,
+                "amount": 40,
+                "pi_tier": 1
             }
         ]
     }

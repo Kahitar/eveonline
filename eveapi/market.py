@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from os import system
 from typing import List
+from eveapi.item import Item
 
 from eveapi.recipe import Recipe
 
@@ -10,6 +11,8 @@ from . import api_request
 
 ORDER_TYPE_SELL = "sell"
 ORDER_TYPE_BUY  = "buy"
+
+BROKERS_FEE = 0.01
 
 @dataclass
 class Order:
@@ -37,9 +40,10 @@ class Order:
 
 
 class Market:
-    def __init__(self, region_code: int, system_id: int = None):
+    def __init__(self, region_code: int, system_id: int = None, sell_order_tax: float = 0.08):
         self.region_code = region_code
         self.system_id = system_id
+        self.sell_order_tax = sell_order_tax
 
     def get_order_list(self, type_id: int, order_type: str) -> List[Order]:
         query_args = api_request.build_query_args(
@@ -59,33 +63,49 @@ class Market:
             orders.append(order)
         return sorted(orders, key=lambda o: o.price)
 
-    def get_ingredients_cost(self, recipe: Recipe):
+    def get_buy_price(self, item: Item, amount: int = 1) -> float:
+        """ Get the buy price for the item (buy from sell order), including tax. """
         order_type: str = ORDER_TYPE_SELL
 
-        cost_sum = 0
-        for item, amount in recipe.ingredients.items():
-            orders = self.get_order_list(item.type_id, order_type)
-            amount_remaining = amount
-            for order in orders:
-                if order.volume_remain > amount_remaining:
-                    # The order can fill the remaining amount
-                    cost_sum += order.price * amount_remaining
-                    amount_remaining = 0
-                    break
-                else:
-                    # Buy everything from this order than continue 
-                    # with the next one
-                    cost_sum += order.price * order.volume_remain
-                    amount_remaining -= order.volume_remain
-                    last_price = order.price
-            
-            # Check that all items could be purchased
-            if amount_remaining > 0:
-                print(
-                    f"WARNING: Not enough {item.name} on the market for this recipe. "
-                    f"Missing {amount_remaining} items."
-                )
-                # assume the highest price for the rest of the items
-                cost_sum += last_price * amount_remaining
+        orders = self.get_order_list(item.type_id, order_type)
+        if len(orders) == 0:
+            # No sell order for this item exists...
+            return 0
 
-        return cost_sum
+        amount_remaining = amount
+        cost_sum = 0
+        for order in orders:
+            if order.volume_remain > amount_remaining:
+                # The order can fill the remaining amount
+                p = cost_sum + order.price * amount_remaining
+                print(f"Buy {amount} {item.name} for {p:,.2f} ISK")
+                return p
+            else:
+                # Buy everything from this order than continue 
+                # with the next one
+                print("Remaining in order:", order.volume_remain)
+                print("For price:", order.price)
+                print("Amount before:", amount_remaining)
+                cost_sum += order.price * order.volume_remain
+                amount_remaining -= order.volume_remain
+                print("Amount after:", amount_remaining)
+                last_price = order.price
+        
+        # Check that all items could be purchased
+        if amount_remaining > 0:
+            print(
+                f"WARNING: Not enough {item.name} on the market for this recipe. "
+                f"Missing {amount_remaining} items."
+            )
+            # assume the highest price for the rest of the items
+            return last_price * amount_remaining
+
+    def get_sell_price(self, item: Item, amount: int = 1) -> float:
+        """ Get the sell price for the item (sell with sell order), including tax.
+        Asumes that the target sell price is the minimum sell order. 
+        """
+        sell_orders = self.get_order_list(item.type_id, ORDER_TYPE_SELL)
+        if len(sell_orders) == 0:
+            # No sell order for this item exists...
+            return 0
+        return sell_orders[0].price * amount * (1 - self.sell_order_tax - BROKERS_FEE)
